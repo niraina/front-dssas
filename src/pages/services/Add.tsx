@@ -74,7 +74,7 @@ const Add = () => {
       />
       <div className="flex gap-2 items-center">
         <Button type="primary" className="bg-slate-600 mt-2" onClick={handleSend}>
-          Se connecter
+          Ajouter
         </Button>
         <Button type="link" onClick={() => navigate(-1)} className="pt-2">Retour</Button>
       </div>

@@ -11,6 +11,13 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
+import { api } from '@/shared/api';
+import { ServicesTypes } from '../services';
+
+export type ServicesTypeComplet = ServicesTypes & {
+  uuid: string;
+  user_uuid: string; 
+};
 
 ChartJS.register(
   CategoryScale,
@@ -40,37 +47,36 @@ const DashBoard = () => {
     datasets: [],
   });
 
+  const fetchdata = async () => {
+    try {
+      const response = await api.get("/services");
+      const userPostCounts = response.data.reduce((acc: Record<string, number>, item: ServicesTypeComplet) => {
+        acc[item.user_uuid] = (acc[item.user_uuid] || 0) + 1;
+        return acc;
+      }, {});
+      //WIP
+      const labels = Object.keys(userPostCounts).map((userId) => `User ${userId}`);
+      const data = Object.values(userPostCounts);
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            //WIP
+            label: 'Nombre de services',
+            data,
+            backgroundColor: 'rgba(53, 162, 235, 0.5)', 
+          },
+        ],
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-        const posts = await response.json();
-
-        const userPostCounts = posts.reduce((acc: Record<number, number>, post: any) => {
-          acc[post.userId] = (acc[post.userId] || 0) + 1;
-          return acc;
-        }, {});
-
-        const labels = Object.keys(userPostCounts).map((userId) => `User ${userId}`);
-        const data = Object.values(userPostCounts);
-
-        setChartData({
-          labels,
-          datasets: [
-            {
-              label: 'Number of Posts',
-              data,
-              backgroundColor: 'rgba(53, 162, 235, 0.5)',
-            },
-          ],
-        });
-      } catch (error) {
-        console.error('Failed to fetch data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+    fetchdata();
+  }, []); 
 
   return (
     <div>

@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState, useEffect, ReactNode } from "react";
+import {jwtDecode} from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   token: string | null;
@@ -13,6 +17,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(() => {
     return localStorage.getItem("token");
   });
+  const navigate = useNavigate(); 
+
+  const isTokenExpired = (token: string) => {
+    try {
+      const decodedToken: any = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp < currentTime;
+    } catch (error) {
+      return true;
+    }
+  };
+
+
+  useEffect(() => {
+    if (token && isTokenExpired(token)) {
+      logout(); 
+      navigate("/"); 
+    }
+  }, [token, navigate]); 
 
   useEffect(() => {
     if (token) {
@@ -31,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, isAuthenticated: !!token, login, logout }}>
+    <AuthContext.Provider value={{ token, isAuthenticated: !!token && !isTokenExpired(token), login, logout }}>
       {children}
     </AuthContext.Provider>
   );

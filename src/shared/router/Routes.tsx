@@ -1,4 +1,5 @@
 import Services from "@/pages/services";
+import Subscriptions from "@/pages/subscriptions";
 import Auth from "@pages/auth";
 import DashBoard from "@pages/dashboard";
 
@@ -10,6 +11,10 @@ export const ROUTES = [
     {
         path: "/services/*",
         element: <Services />
+    },
+    {
+        path: "/subscriptions/*",
+        element: <Subscriptions />
     },
 ]
 

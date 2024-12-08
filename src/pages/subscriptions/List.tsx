@@ -28,26 +28,6 @@ const List = () => {
     setIsModalOpen(false);
   };
 
-  const handleActived = async(id: string, status: number) => {
-    try {
-      if(status === 0){
-        const response = await api.patch(`/services/${id}/activate`)
-        console.log(response);
-        if(response.status === 200){
-          fetchdata();
-        }
-      }else{
-        const response = await api.patch(`/services/${id}/suspend`)
-        console.log(response);
-        if(response.status === 200){
-          fetchdata();
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
   const handleDelete = async (id: string) => {
     showModal()
     console.log(id)
@@ -55,9 +35,9 @@ const List = () => {
 
   const columns = [
     {
-      title: "Nom",
-      dataIndex: "name",
-      key: "name",
+      title: "Service",
+      dataIndex: "service_uuid",
+      key: "service_uuid",
     },
     {
       title: "Description",
@@ -65,14 +45,14 @@ const List = () => {
       key: "description",
     },
     {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
+      title: "Label",
+      dataIndex: "label",
+      key: "label",
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
+      title: "Prix",
+      dataIndex: "price",
+      key: "price",
     },
     {
       title: "Actions",
@@ -80,7 +60,7 @@ const List = () => {
       key: "actions",
       render: (_: any, record: ServicesTypesLists) => (
         <div style={{ display: "flex", gap: "8px" }}>
-          {record.status === 0 && 
+          {/* {record.status === 0 && 
           <Button type="primary" onClick={() => handleActived(record.uuid, record.status)} className="bg-green-600 text-white flex items-center">
             Activer
           </Button>
@@ -89,7 +69,7 @@ const List = () => {
           <Button type="primary" onClick={() => handleActived(record.uuid, record.status)} className="bg-yellow-300 text-black flex items-center">
             Suspendre
           </Button>
-          }
+          } */}
           <Button type="primary" danger onClick={() => handleDelete(record.uuid)} className="bg-red-600 items-center hidden">
             <DeleteOutlined />
           </Button>
@@ -100,7 +80,7 @@ const List = () => {
 
   const fetchdata = async () => {
     try {
-      const response = await api.get("/services");
+      const response = await api.get("/subscriptions");
       setData(response.data);
     } catch (error) {
       console.log(error);
@@ -113,7 +93,7 @@ const List = () => {
 
   return (
     <div>
-      <Title title="Liste des services" />
+      <Title title="Liste des abonnements" />
       <Button
         type="primary"
         className="bg-slate-600 my-2"
