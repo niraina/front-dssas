@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setCurrentUser } from "@/modules/auth/core/actions";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/widgets/Authcontext";
+import { logo } from "@/shared/MediaPath";
 type LoginState = {
   email: string;
   password: string;
@@ -49,7 +50,9 @@ const Login = () => {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="max-w-[600px] mx-auto ">
-        <h1 className="text-3xl font-bold text-center mb-4">Login page</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">
+          <img src={logo} alt="logo" className="w-full max-w-[200px] mx-auto text-center" />
+        </h1>
         <Field
           type="email"
           placeholder="Adresse email"

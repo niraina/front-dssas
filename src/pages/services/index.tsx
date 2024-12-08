@@ -5,10 +5,8 @@ import Add from './Add'
 export interface ServicesTypes {
   name:        string;
   description: string;
-  type:        string;
+  type:        "VIDEO" | "AUDIO" | "FORMATION" | "LOGICIEL";
   status:      number;
-  user_uuid:   string;
-  uuid:        string;
 }
 
 const Services = () => {
@@ -17,6 +15,7 @@ const Services = () => {
       <Route path="/" element={<Outlet />}>
         <Route path="/" element={<List />} />
         <Route path="/add" element={<Add />} />
+        <Route path="/add/:uuid" element={<Add />} />
       </Route>
     </Routes>
   )

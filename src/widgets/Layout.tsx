@@ -2,10 +2,13 @@ import React, { useState, ReactNode } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import { Layout, Button, theme } from "antd";
+import { Layout, Button, theme, Avatar } from "antd";
 import AsideBar from "@/shared/common/AsideBar";
 import { logo } from "@/shared/MediaPath";
+import { useAuth } from "./Authcontext";
+import { useNavigate } from "react-router-dom";
 interface MyComponentProps {
   children: ReactNode;
 }
@@ -17,6 +20,13 @@ const GlobalLayout: React.FC<MyComponentProps> = ({ children }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const { logout } = useAuth();
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
 
   return (
     <Layout>
@@ -28,12 +38,12 @@ const GlobalLayout: React.FC<MyComponentProps> = ({ children }) => {
         collapsed={collapsed}
       >
         <h2 className="text-center text-[24px] px-2 py-5">
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" className="w-full max-w-full h-auto" />
         </h2>
         <AsideBar />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header style={{ padding: 0, background: colorBgContainer }} className="flex justify-between">
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -44,6 +54,10 @@ const GlobalLayout: React.FC<MyComponentProps> = ({ children }) => {
               height: 64,
             }}
           />
+          <div className="flex items-center gap-2 pe-9 cursor-pointer" onClick={handleLogout}>
+            <Avatar icon={<UserOutlined />} />
+            Deconnexion
+          </div>
         </Header>
         <Content
           style={{

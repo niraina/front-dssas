@@ -1,13 +1,10 @@
 // App.tsx
-import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { PUBLIC_ROUTES, ROUTES } from "@shared/router/Routes";
 import GlobalLayout from "./widgets/Layout";
 import PublicLayout from "./widgets/LayoutPublic";
 import { AuthProvider, useAuth } from "./widgets/Authcontext";
 import "./shared/assets/style.scss";
-import { useDispatch } from "react-redux";
-import { api } from "./shared/api";
 
 interface RouteType {
   path: string;
@@ -16,18 +13,6 @@ interface RouteType {
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
-
-  const dispatch = useDispatch()
-
-  const fetchProfile = async() => {
-    const response = await api.get('/users/profile');
-    console.log(response);
-    
-  }
-
-  useEffect(() => {
-    fetchProfile()
-  }, [])
 
   return isAuthenticated ? (
     <GlobalLayout>
