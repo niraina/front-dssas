@@ -5,6 +5,7 @@ import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { api } from "@/shared/api";
 import { useNavigate } from "react-router-dom";
+import { logo } from "@/shared/MediaPath";
 type RegisterState = {
   email: string;
   name: string;
@@ -52,6 +53,7 @@ const Register = () => {
             name: "",
             confirm_password: "",
           });
+          navigate('/')
         } else {
           console.log(response);
         }
@@ -68,7 +70,9 @@ const Register = () => {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="max-w-[600px] mx-auto ">
-        <h1 className="text-3xl font-bold text-center mb-4">Login page</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">
+          <img src={logo} alt="logo" className="w-full max-w-[200px] mx-auto text-center" />
+        </h1>
         <Field
           type="text"
           placeholder="Nom et prénom"
@@ -90,24 +94,24 @@ const Register = () => {
 
         <Field
           type="password"
-          placeholder="Text...."
+          placeholder="Mot de passe"
           prefix={<UserOutlined />}
           value={data.password}
           onChange={(e) => onChange({ password: e?.target?.value })}
-          label="Password"
+          label="Mot de passe"
           name="password"
         />
         <Field
           type="password"
-          placeholder="Text...."
+          placeholder="Confirmer votre mot de passe"
           prefix={<UserOutlined />}
           value={data.confirm_password}
           onChange={(e) => onChange({ confirm_password: e?.target?.value })}
-          label="Password"
+          label="Confirmez votre mot de passe"
           name="password"
         />
         {!checkedPassword ? (
-          <p className="text-red-900 text-[12px] italic mb-4 -my-2">
+          <p className="text-red-900 text-[12px] italic mt-2 mb-4 -my-2">
             {errorMessage}
           </p>
         ) : (
