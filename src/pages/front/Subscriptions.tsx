@@ -16,14 +16,6 @@ export type SubscriptionsType = {
 const Subscriptions = () => {
   const [data, setData] = useState<SubscriptionsType[]>([]);
   const {uuid} = useParams()
-  const subscription = async (uuid: string) => {
-    try {
-      await api.post('/userSubscriptions/', {"subscription_uuid": uuid});
-      fetchData(uuid);
-    } catch (error) {
-      console.log(error)
-    }
-  }
   
   const fetchData = async (id: string) => {
     try {
@@ -36,6 +28,15 @@ const Subscriptions = () => {
   useEffect(() => {
     uuid && fetchData(uuid);
   }, [uuid]);
+
+  const subscription = async (uuid: string) => {
+    try {
+      await api.post('/userSubscriptions/', {"subscription_uuid": uuid});
+      fetchData(uuid);
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="pt-6">
       <Title title="Liste abonnement" />

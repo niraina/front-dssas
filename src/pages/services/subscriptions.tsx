@@ -6,6 +6,7 @@ import { Button, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import UserSubscription from "./UserSubscription";
 export type SubscriptionsType = {
   duration: number;
   description: string;
@@ -89,7 +90,7 @@ const Subscriptions = () => {
       <Title title="Liste abonnement" />
       <Table dataSource={data} columns={columns} rowKey="uuid" />
 
-      {/* <UserSubscription /> */}
+      <UserSubscription />
     </div>
   );
 };
