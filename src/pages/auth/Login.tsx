@@ -62,13 +62,13 @@ const Login = () => {
         />
         <Field
           type="password"
-          placeholder="Text...."
+          placeholder="Mot de passe"
           prefix={<UserOutlined />}
           value={loginState.password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             onChange({ password: e?.target?.value })
           }
-          label="Password"
+          label="Mot de passe"
           name="password"
         />
         {error && <p className="text-red-800 my-2">{error}</p>}
