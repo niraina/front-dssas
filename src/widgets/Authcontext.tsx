@@ -3,6 +3,9 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import {jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { api } from "@/shared/api";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "@/modules/auth/core/actions";
 
 interface AuthContextType {
   token: string | null;
@@ -17,7 +20,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(() => {
     return localStorage.getItem("token");
   });
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const isTokenExpired = (token: string) => {
     try {
@@ -28,6 +32,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return true;
     }
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await api.get('/users/profile')
+      dispatch(setCurrentUser(response.data));
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   useEffect(() => {
@@ -40,6 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
+      fetchData()
     } else {
       localStorage.removeItem("token");
     }

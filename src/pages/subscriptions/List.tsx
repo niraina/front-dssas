@@ -2,10 +2,10 @@
 import Title from "@/shared/common/Title";
 import { Button, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
-import { ServicesTypes } from ".";
 import { api } from "@/shared/api";
 import { useNavigate } from "react-router-dom";
 import { DeleteOutlined } from "@ant-design/icons";
+import { ServicesTypes } from "../services";
 
 type ServicesTypesLists = ServicesTypes & {
   uuid: string;

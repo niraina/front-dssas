@@ -8,7 +8,7 @@ import { Layout, Button, theme, Avatar } from "antd";
 import AsideBar from "@/shared/common/AsideBar";
 import { logo } from "@/shared/MediaPath";
 import { useAuth } from "./Authcontext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 interface MyComponentProps {
   children: ReactNode;
 }
@@ -37,9 +37,9 @@ const GlobalLayout: React.FC<MyComponentProps> = ({ children }) => {
         collapsible
         collapsed={collapsed}
       >
-        <h2 className="text-center text-[24px] px-2 py-5">
+        <Link to="/front" className="text-center text-[24px] px-2 py-5">
           <img src={logo} alt="logo" className="w-full max-w-full h-auto" />
-        </h2>
+        </Link>
         <AsideBar />
       </Sider>
       <Layout>

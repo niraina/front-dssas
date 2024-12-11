@@ -1,4 +1,4 @@
-import { CustomerServiceOutlined, DashboardOutlined, UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
+import { CustomerServiceOutlined, DashboardOutlined, UserOutlined } from '@ant-design/icons';
 
 export const MenuConstant = [
     {
@@ -15,18 +15,18 @@ export const MenuConstant = [
         link: "/services",
         childs: []
     },
-    {
-        key: 3,
-        parent: "Abonnements",
-        icon: <UsergroupAddOutlined />,
-        link: "/subscriptions",
-        childs: []
-    },
+    // {
+    //     key: 3,
+    //     parent: "Abonnements",
+    //     icon: <UsergroupAddOutlined />,
+    //     link: "/subscriptions",
+    //     childs: []
+    // },
     {
         key: 4,
         parent: "Profile",
         icon: <UserOutlined />,
         link: "/users",
         childs: []
-    }
+    },
 ]

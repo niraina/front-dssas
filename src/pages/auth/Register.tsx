@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { api } from "@/shared/api";
+import { useNavigate } from "react-router-dom";
 type RegisterState = {
   email: string;
   name: string;
@@ -22,6 +23,7 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState<string>(
     "Mots de passe pas identique"
   );
+  const navigate = useNavigate()
   const onChange = (v: any) => {
     setData((prev: any) => ({ ...prev, ...v }));
   };
@@ -111,13 +113,12 @@ const Register = () => {
         ) : (
           ""
         )}
-        <Button
-          type="primary"
-          className="bg-slate-600 mt-2"
-          onClick={handleLogin}
-        >
-          S'inscrire
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button type="primary" className="bg-slate-600 mt-2" onClick={handleLogin}>
+            S'inscrire
+          </Button>
+          <Button type="link" onClick={() => navigate('/')}>Se connecter</Button>
+        </div>
       </div>
     </div>
   );

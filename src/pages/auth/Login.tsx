@@ -4,8 +4,6 @@ import { useState } from "react";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { loginApi } from "@/shared/api";
-import { useDispatch } from "react-redux";
-import { setCurrentUser } from "@/modules/auth/core/actions";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/widgets/Authcontext";
 import { logo } from "@/shared/MediaPath";
@@ -20,7 +18,6 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState<string>("");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -35,13 +32,12 @@ const Login = () => {
         username: loginState.email,
         password: loginState.password,
       });
-      dispatch(setCurrentUser(response.data));
       login(response.data.access_token);
       setLoginState({
         email: "",
         password: "",
       });
-      navigate('/dashboard')
+      navigate('/front')
     } catch (error: any) {
       setError(error?.response?.data?.detail);
     }
@@ -76,9 +72,12 @@ const Login = () => {
           name="password"
         />
         {error && <p className="text-red-800 my-2">{error}</p>}
-        <Button type="primary" className="bg-slate-600 mt-2" onClick={handleLogin}>
-          Se connecter
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button type="primary" className="bg-slate-600 mt-2" onClick={handleLogin}>
+            Se connecter
+          </Button>
+          <Button type="link" className="pt-2" onClick={() => navigate('/register')}>S'inscrire</Button>
+        </div>
       </div>
     </div>
   );
