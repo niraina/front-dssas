@@ -13,10 +13,13 @@ import { Bar } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import { api } from '@/shared/api';
 import { ServicesTypes } from '../services';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/rootReducer';
 
 export type ServicesTypeComplet = ServicesTypes & {
   uuid: string;
   user_uuid: string; 
+  type: string;  // Assurez-vous que `type` est bien dans l'interface
 };
 
 ChartJS.register(
@@ -36,7 +39,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Statistique...',
+      text: 'Nombre de services par type',
     },
   },
 };
@@ -46,23 +49,25 @@ const DashBoard = () => {
     labels: [],
     datasets: [],
   });
+  const currentUser: any = useSelector((state: RootState) => state.currentUser);
 
   const fetchdata = async () => {
     try {
-      const response = await api.get("/services");
-      const userPostCounts = response.data.reduce((acc: Record<string, number>, item: ServicesTypeComplet) => {
-        acc[item.user_uuid] = (acc[item.user_uuid] || 0) + 1;
+      const response = await api.get("/services?service_uuid=" + currentUser.uuid);
+      
+      // Regrouper les services par type et compter
+      const typeCounts = response.data.reduce((acc: Record<string, number>, item: ServicesTypeComplet) => {
+        acc[item.type] = (acc[item.type] || 0) + 1;
         return acc;
       }, {});
-      //WIP
-      const labels = Object.keys(userPostCounts).map((userId) => `User ${userId}`);
-      const data = Object.values(userPostCounts);
+
+      const labels = Object.keys(typeCounts);
+      const data = Object.values(typeCounts);
 
       setChartData({
         labels,
         datasets: [
           {
-            //WIP
             label: 'Nombre de services',
             data,
             backgroundColor: 'rgba(53, 162, 235, 0.5)', 

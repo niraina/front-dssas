@@ -4,6 +4,7 @@ import Title from "@/shared/common/Title";
 import { Button, Table } from "antd";
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom";
+import moment from 'moment';
 
 const UserSubscription = () => {
   const [data, setData] = useState<any[]>([])
@@ -24,20 +25,66 @@ const UserSubscription = () => {
   }, [])
 
   const columns = [
+    
     {
-      title: "Utilisateur ID",
-      dataIndex: "user_uuid",
-      key: "user_uuid",
+      title: "Nom et prénom",
+      dataIndex: "name",
+      key: "name",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.user?.name}
+        </div>
+      ),
     },
     {
-      title: "Subscription Uuid",
-      dataIndex: "subscription_uuid",
-      key: "subscription_uuid",
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.user?.email}
+        </div>
+      ),
+    },
+    {
+      title: "Service",
+      dataIndex: "service",
+      key: "service",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.subscription?.service?.name}
+        </div>
+      ),
+    },
+    {
+      title: "Prix (Ariary)",
+      dataIndex: "price",
+      key: "price",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.subscription?.price}
+        </div>
+      ),
     },
     {
       title: "Date",
       dataIndex: "subscription_date",
       key: "subscription_date",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.subscription_date && moment(record?.subscription_date).format('DD/MM/YYYY')}
+        </div>
+      ),
+    },
+    {
+      title: "Date",
+      dataIndex: "subscription_date",
+      key: "subscription_date",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.subscription_date && moment(record?.subscription_date).format('DD/MM/YYYY')}
+        </div>
+      ),
     },
 
     {
