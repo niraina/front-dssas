@@ -73,12 +73,22 @@ const UserSubscription = () => {
       ),
     },
     {
-      title: "Service",
-      dataIndex: "service",
-      key: "service",
+      title: "Abonnement",
+      dataIndex: "label",
+      key: "label",
       render: (_: any, record: any) => (
         <div>
-          {record?.subscription?.service?.name}
+          {record?.subscription?.label}
+        </div>
+      ),
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.subscription?.description}
         </div>
       ),
     },
@@ -173,7 +183,7 @@ const UserSubscription = () => {
   }
   return (
     <div>
-      <Title title="Liste requette de validation" />
+      <Title title="Liste des souscriptions" />
       <Table dataSource={data} columns={columns} rowKey="uuid" />
       <Modal
         title={title}

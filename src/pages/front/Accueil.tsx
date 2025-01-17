@@ -60,7 +60,7 @@ const Accueil = () => {
 
   const columns = [
     {
-      title: "Label",
+      title: "Abonnement",
       dataIndex: "label",
       key: "label",
       render: (_: any, record: any) => (

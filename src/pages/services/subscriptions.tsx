@@ -27,7 +27,7 @@ const Subscriptions = () => {
       key: "description",
     },
     {
-      title: "Label",
+      title: "Abonnement",
       dataIndex: "label",
       key: "label",
     },
