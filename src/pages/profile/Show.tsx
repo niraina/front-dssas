@@ -67,6 +67,18 @@ const Show = () => {
       ),
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.status === "active" && "Approuver"}
+          {record?.status === "refused" && "Réfuser"}
+          {record?.status === "pending" && "En cours"}
+        </div>
+      ),
+    },
+    {
       title: "Date d'abonnement",
       dataIndex: "subscription_date",
       key: "subscription_date",
