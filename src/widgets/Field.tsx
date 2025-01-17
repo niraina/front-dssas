@@ -12,6 +12,8 @@ interface FieldProps {
   suffix?: any,
   value: string | number
   onChange: (a: any) => void,
+  min?: number;
+  max?: number;
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -23,7 +25,9 @@ const Field: React.FC<FieldProps> = ({
   value,
   onChange,
   name,
-  label=""
+  label="",
+  min,
+  max
 }) => {
   return (
     <>
@@ -38,6 +42,8 @@ const Field: React.FC<FieldProps> = ({
         onChange={onChange}
         name={name}
         id={name}
+        min={min}
+        max={max}
       />
     </>
   )

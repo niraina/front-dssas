@@ -29,9 +29,9 @@ const Subscriptions = () => {
     uuid && fetchData(uuid);
   }, [uuid]);
 
-  const subscription = async (uuid: string) => {
+  const subscription = async (uuid: string, id: string) => {
     try {
-      await api.post('/userSubscriptions/', {"subscription_uuid": uuid});
+      await api.post('/userSubscriptions/', {"subscription_uuid": id});
       fetchData(uuid);
     } catch (error) {
       console.log(error)
@@ -49,7 +49,7 @@ const Subscriptions = () => {
           <div className="mx-auto my-3">
             <Button
               type="primary"
-              onClick={() => subscription(item.uuid)}
+              onClick={() => uuid && subscription(uuid, item.uuid)}
               className="bg-gray-600 p-6 rounded-[15px] flex items-center justify-center w-full"
             >
               S'abonner

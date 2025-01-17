@@ -11,7 +11,7 @@ const NewSubscription = () => {
   const [data, setData] = useState<any>({
     label: "",
     description: "",
-    duration: 1,
+    duration: 7,
     price: 0,
     service_uuid: uuid,
   });
@@ -23,7 +23,13 @@ const NewSubscription = () => {
 
   const handleSend = () => {
     try {
-      const response = api.post("/subscriptions", data);
+      const response = api.post("/subscriptions", {
+        label: data.label,
+        description: data.description,
+        duration: +data.duration,
+        price: +data.price,
+        service_uuid: uuid,
+      });
       //WIP
       console.log(response);
       navigate(-1);
@@ -72,6 +78,7 @@ const NewSubscription = () => {
         }
         label="Durée"
         name="duration"
+        min={7}
       />
       <div className="flex gap-2 items-center">
         <Button
