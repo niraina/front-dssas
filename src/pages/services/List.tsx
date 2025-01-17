@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Title from "@/shared/common/Title";
-import { Button, Modal, Table } from "antd";
+import { Button, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import { ServicesTypes } from ".";
 import { api } from "@/shared/api";
@@ -173,6 +173,16 @@ const List = () => {
     doc.save("liste_services.pdf");
   };
 
+  const [filteredData, setFilteredData] = useState<ServicesTypesLists[]>([]); // État pour les données filtrées
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    const filtered = data.filter(item =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
   return (
     <div>
       <Title title="Liste des services" />
@@ -192,7 +202,15 @@ const List = () => {
           Exporter PDF
         </Button>
       </div>
-      <Table dataSource={data} columns={columns} rowKey="id" />
+      <div className="w-1/3">
+        <Input.Search
+          placeholder="Rechercher par nom"
+          onChange={(e) => handleSearch(e.target.value)}
+          value={searchTerm}
+          style={{ marginBottom: "16px" }}
+        />
+      </div>
+      <Table dataSource={filteredData} columns={columns} rowKey="id" />
       <Modal title="" open={isModalOpen} className="modal">
         <p className="text-2xl pt-2">Ête vous sur de vouloir {title}</p>
         <div className="flex justify-end gap-2 p-2">

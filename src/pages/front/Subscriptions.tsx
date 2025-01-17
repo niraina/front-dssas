@@ -4,7 +4,7 @@ import { api } from "@/shared/api";
 import Title from "@/shared/common/Title";
 import { Button } from "antd";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 export type SubscriptionsType = {
   duration: number;
   description: string;
@@ -16,6 +16,7 @@ export type SubscriptionsType = {
 const Subscriptions = () => {
   const [data, setData] = useState<SubscriptionsType[]>([]);
   const {uuid} = useParams()
+  const navigate = useNavigate()
   
   const fetchData = async (id: string) => {
     try {
@@ -33,10 +34,14 @@ const Subscriptions = () => {
     try {
       await api.post('/userSubscriptions/', {"subscription_uuid": id});
       fetchData(uuid);
+      navigate('/front/confirmation');
     } catch (error) {
       console.log(error)
     }
   }
+
+  console.log("data", data);
+  
   return (
     <div className="pt-6">
       <Title title="Liste abonnement" />
