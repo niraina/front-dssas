@@ -3,18 +3,56 @@ import { api } from "@/shared/api";
 import { Table } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    },
+    title: {
+      display: true,
+      text: 'Nombre d\'abonnements par statut',
+    },
+  },
+};
 
 const Accueil = () => {
   const [subscription, setSubscription] = useState<any>([]);
+  const [chartData, setChartData] = useState<any>({
+    labels: [],
+    datasets: [],
+  });
 
-  const fetchData = async() => {
+  const fetchData = async () => {
     try {
-      const response = await api.get('/userSubscriptions')
-      setSubscription(response?.data)
+      const response = await api.get('/userSubscriptions');
+      const activeSubscriptions = response?.data.filter((item: any) => item.status === 'active');
+      setSubscription(activeSubscriptions);
+
+      const statusCounts = response?.data.reduce((acc: Record<string, number>, item: any) => {
+        acc[item.status] = (acc[item.status] || 0) + 1;
+        return acc;
+      }, {});
+
+      const labels = Object.keys(statusCounts);
+      const data = Object.values(statusCounts);
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: 'Nombre d\'abonnements',
+            data,
+            backgroundColor: 'rgba(53, 162, 235, 0.5)',
+          },
+        ],
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData()
@@ -22,12 +60,22 @@ const Accueil = () => {
 
   const columns = [
     {
-      title: "Service",
-      dataIndex: "service",
-      key: "service",
+      title: "Label",
+      dataIndex: "label",
+      key: "label",
       render: (_: any, record: any) => (
         <div>
-          {record?.subscription?.service?.name}
+          {record?.subscription?.label}
+        </div>
+      ),
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.subscription?.description}
         </div>
       ),
     },
@@ -42,7 +90,7 @@ const Accueil = () => {
       ),
     },
     {
-      title: "Date",
+      title: "Date d'abonnement",
       dataIndex: "subscription_date",
       key: "subscription_date",
       render: (_: any, record: any) => (
@@ -60,6 +108,10 @@ const Accueil = () => {
       <h1 className="text-[48px] font-bold">Bienvenu sur notre site,</h1>
       <h2 className="mt-5 text-2xl font-bold mb-2">Voici votre abonnement actuel</h2>
       <Table dataSource={subscription} columns={columns} rowKey="uuid" />
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold">Statistiques des abonnements</h2>
+        <Bar options={options} data={chartData} />
+      </div>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { ServicesTypes } from "../services";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 type ServicesTypesLists = ServicesTypes & {
   uuid: string;
@@ -93,6 +94,75 @@ const List = () => {
     doc.save("liste_services.pdf");
   };
 
+  const [subscription, setSubscription] = useState<any>([]);
+  
+    const fetchData1 = async() => {
+      try {
+        const response = await api.get('/userSubscriptions')
+        setSubscription(response?.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  
+    useEffect(() => {
+      fetchData1()
+    },[])
+  
+    const columns1 = [
+      {
+        title: "Service",
+        dataIndex: "service",
+        key: "service",
+        render: (_: any, record: any) => (
+          <div>
+            {record?.subscription?.service?.name}
+          </div>
+        ),
+      },
+      {
+        title: "Label",
+        dataIndex: "label",
+        key: "label",
+        render: (_: any, record: any) => (
+          <div>
+            {record?.subscription?.label}
+          </div>
+        ),
+      },
+      {
+        title: "Description",
+        dataIndex: "description",
+        key: "description",
+        render: (_: any, record: any) => (
+          <div>
+            {record?.subscription?.description}
+          </div>
+        ),
+      },
+      {
+        title: "Prix (Ariary)",
+        dataIndex: "price",
+        key: "price",
+        render: (_: any, record: any) => (
+          <div>
+            {record?.subscription?.price}
+          </div>
+        ),
+      },
+      {
+        title: "Date d'abonnement",
+        dataIndex: "subscription_date",
+        key: "subscription_date",
+        render: (_: any, record: any) => (
+          <div>
+            {record?.subscription_date && moment(record?.subscription_date).format('DD/MM/YYYY')}
+          </div>
+        ),
+      },
+  
+    ];
+
   return (
     <div className="pt-6">
       <Title title="Liste des services" />
@@ -106,6 +176,8 @@ const List = () => {
         </Button>
       </div>
       <Table dataSource={data} columns={columns} rowKey="id" />
+      <h2 className="mt-5 text-2xl font-bold mb-2">Liste des abonnement</h2>
+      <Table dataSource={subscription} columns={columns1} rowKey="uuid" />
     </div>
   );
 };

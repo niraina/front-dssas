@@ -27,32 +27,32 @@ const Show = () => {
   const columns = [
     
     {
-      title: "Nom et prénom",
-      dataIndex: "name",
-      key: "name",
-      render: (_: any, record: any) => (
-        <div>
-          {record?.user?.name}
-        </div>
-      ),
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      render: (_: any, record: any) => (
-        <div>
-          {record?.user?.email}
-        </div>
-      ),
-    },
-    {
       title: "Service",
       dataIndex: "service",
       key: "service",
       render: (_: any, record: any) => (
         <div>
           {record?.subscription?.service?.name}
+        </div>
+      ),
+    },
+    {
+      title: "Label",
+      dataIndex: "label",
+      key: "label",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.subscription?.label}
+        </div>
+      ),
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (_: any, record: any) => (
+        <div>
+          {record?.subscription?.description}
         </div>
       ),
     },
@@ -67,7 +67,7 @@ const Show = () => {
       ),
     },
     {
-      title: "Date",
+      title: "Date d'abonnement",
       dataIndex: "subscription_date",
       key: "subscription_date",
       render: (_: any, record: any) => (
@@ -86,7 +86,6 @@ const Show = () => {
       <div>
         <p><b>Nom et prénom: </b> {currentUser?.name}</p>
         <p><b>Email: </b> {currentUser?.email}</p>
-        <p><b>uuid: </b> {currentUser?.uuid}</p>
       </div>
     </div>
       <h2 className="mt-5 text-2xl font-bold mb-2">Liste des abonnement</h2>

@@ -109,7 +109,7 @@ const UserSubscription = () => {
       key: "actions",
       render: (_: any, record: any) => (
         <div style={{ display: "flex", gap: "8px" }}>
-          {record?.status === 'active' ? ''
+          {record?.status !== 'pending' ? ''
           :
           <Button
             type="primary"
@@ -119,7 +119,7 @@ const UserSubscription = () => {
             Approuver
           </Button>
         }
-          {record?.status === 'refused' ? ''
+          {record?.status !== 'pending' ? ''
           :<Button
             type="primary"
             onClick={() => onRefused(record?.uuid)}
