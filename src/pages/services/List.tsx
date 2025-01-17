@@ -17,32 +17,41 @@ const List = () => {
   const [data, setData] = useState<ServicesTypesLists[]>([]);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [uuid, setUuid] = useState<string>('');
+  const [status, setStatus] = useState<number>();
+  const [title, setTitle] = useState<string>('');
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+  const onActived = (uuid: string, status: number, title: string) => {
+    showModal();
+    setUuid(uuid);
+    setStatus(status);
+    setTitle(title)
+  }
+
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
-  const handleActived = async (id: string, status: number) => {
+  const handleActived = async () => {
     try {
       if (status === 0) {
-        const response = await api.patch(`/services/${id}/activate`);
+        const response = await api.patch(`/services/${uuid}/activate`)
         console.log(response);
         if (response.status === 200) {
           fetchdata();
+          handleCancel()
         }
       } else {
-        const response = await api.patch(`/services/${id}/suspend`);
+        const response = await api.patch(`/services/${uuid}/suspend`);
         console.log(response);
         if (response.status === 200) {
           fetchdata();
+          handleCancel()
         }
       }
     } catch (error) {
@@ -90,7 +99,7 @@ const List = () => {
           {record.status === 0 && (
             <Button
               type="primary"
-              onClick={() => handleActived(record.uuid, record.status)}
+              onClick={() => onActived(record.uuid, record.status, "activé")}
               className="bg-green-600 text-white flex items-center"
             >
               Activer
@@ -99,7 +108,7 @@ const List = () => {
           {record.status === 1 && (
             <Button
               type="primary"
-              onClick={() => handleActived(record.uuid, record.status)}
+              onClick={() => onActived(record.uuid, record.status, "suspendre")}
               className="bg-yellow-300 text-black flex items-center"
             >
               Suspendre
@@ -185,13 +194,13 @@ const List = () => {
       </div>
       <Table dataSource={data} columns={columns} rowKey="id" />
       <Modal title="" open={isModalOpen} className="modal">
-        <p className="text-2xl pt-2">Ête vous sur de vouloir supprimer</p>
-        <div className="flex items-center justify-end gap-2 py-2">
-          <Button className="bg-white text-black" onClick={handleCancel}>
+        <p className="text-2xl pt-2">Ête vous sur de vouloir {title}</p>
+        <div className="flex justify-end gap-2 p-2">
+          <Button className="bg-green-800 text-white" onClick={handleActived}>
+              OUI
+            </Button>
+            <Button className="bg-red-800 text-white" onClick={handleCancel}>
             NON
-          </Button>
-          <Button className="bg-red-800 text-white" onClick={handleOk}>
-            OUI
           </Button>
         </div>
       </Modal>

@@ -13,3 +13,12 @@
         display: none;
     }
 }
+
+.modal-confirm{
+    .ant-modal-footer{
+        display: none;
+    }
+    .ant-modal-close{
+        display: none;
+    }
+}
