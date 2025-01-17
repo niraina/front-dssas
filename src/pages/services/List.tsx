@@ -99,7 +99,7 @@ const List = () => {
           {record.status === 0 && (
             <Button
               type="primary"
-              onClick={() => onActived(record.uuid, record.status, "activé")}
+              onClick={() => onActived(record.uuid, record.status, "activer")}
               className="bg-green-600 text-white flex items-center"
             >
               Activer
@@ -145,6 +145,7 @@ const List = () => {
     try {
       const response = await api.get("/services");
       setData(response.data);
+      setFilteredData(response.data)
     } catch (error) {
       console.log(error);
     }
@@ -212,7 +213,7 @@ const List = () => {
       </div>
       <Table dataSource={filteredData} columns={columns} rowKey="id" />
       <Modal title="" open={isModalOpen} className="modal">
-        <p className="text-2xl pt-2">Ête vous sur de vouloir {title}</p>
+        <p className="text-2xl pt-2">Êtes vous sûr de vouloir {title}</p>
         <div className="flex justify-end gap-2 p-2">
           <Button className="bg-green-800 text-white" onClick={handleActived}>
               OUI
